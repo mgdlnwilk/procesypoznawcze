@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz z procesów poznawczych</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=pVLi8IH49LbgDM7TIp3zCVOnk57-NvMgB3iHmMf2gaSR3B1cNKqNMj_Px00HkgYjnBWxvUgwr4QI-zYxdbL0lcBZqDrhRA_GiJQGoK47JotsW0tAKGw8fubgZkNkezlS" charset="UTF-8"></script><style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f7f7f7; }
+    h1 { text-align: center; }
+    .question { margin-bottom: 20px; padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .question h3 { margin-bottom: 10px; }
+    .answers label { display: block; margin-bottom: 5px; }
+    #submit { display: block; margin: 30px auto; padding: 10px 20px; font-size: 16px; }
+    #result { text-align: center; font-size: 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Quiz z procesów poznawczych</h1>
+  <form id="quizForm"></form>
+  <button id="submit">Sprawdź odpowiedzi</button>
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "Procesy poznawcze to:",
+        options: ['Procesy emocjonalne', 'Procesy związane z przetwarzaniem informacji', 'Procesy fizjologiczne'],
+        correct: 1
+      },
+      {
+        q: "Psychologia poznawcza jako dyscypllina powstała około:",
+        options: ['1945 r.', '1956 r.', '1969 r.'],
+        correct: 1
+      },
+      {
+        q: "Reprezentacja poznawcza to:",
+        options: ['Obraz realnego obiektu w umyśle', 'Proces widzenia', 'Emocjonalna reakcja na bodziec'],
+        correct: 0
+      },
+      {
+        q: "Bodziec działający z pewnej odległości to:",
+        options: ['Bodziec peryferyczny', 'Bodziec dystalny', 'Bodziec proksymalny'],
+        correct: 1
+      },
+      {
+        q: "Wyobraźnia twórcza odpowiada za:",
+        options: ['Odtwarzanie rzeczy znanych', 'Przypominanie', 'Tworzenie fantazyjnych konstrukcji'],
+        correct: 2
+      }
+    ];
+
+    const quizForm = document.getElementById("quizForm");
+    questions.forEach((q, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.innerHTML = `<h3>${index + 1}. ${q.q}</h3>`;
+      q.options.forEach((option, i) => {
+        const inputId = `q${index}_opt${i}`;
+        questionDiv.innerHTML += `
+          <label><input type="radio" name="q${index}" value="${i}" id="${inputId}"> ${option}</label>
+        `;
+      });
+      quizForm.appendChild(questionDiv);
+    });
+
+    document.getElementById("submit").addEventListener("click", (e) => {
+      e.preventDefault();
+      let score = 0;
+      questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected && parseInt(selected.value) === q.correct) score++;
+      });
+      const percent = Math.round((score / questions.length) * 100);
+      document.getElementById("result").innerHTML = `<p>Twój wynik: <strong>${score}/${questions.length}</strong> (${percent}%)</p>`;
+    });
+  </script>
+</body>
+</html>
